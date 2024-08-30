@@ -1,0 +1,127 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String   @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  createdAt         DateTime @default(now()) @map(name: "created_at")
+  updatedAt         DateTime @default(now()) @map(name: "updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map(name: "accounts")
+}
+
+model Session {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String   @unique
+  userId       String   @db.ObjectId
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map(name: "sessions")
+}
+
+model VerificationToken {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map(name: "verification_tokens")
+}
+
+model User {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  email         String    @unique
+  phonenumber   String?
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  gender        Gender?
+  address       String?
+  isActive      Boolean   @default(true)
+
+  Account Account[]
+  Session Session[]
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+
+  @@index([id, email, phonenumber])
+  @@map(name: "users")
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHERS
+}
+
+model Biz {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  slug       String  @unique
+  type       BizType
+  bizname    String
+  heading    String?
+  subheading String?
+  logo       String?
+
+  phonenumbers String?
+  email        String?
+  address      String?
+  timings      String?
+  fblink       String?
+  instalink    String?
+  otherslink   String[]
+
+  Product Product[]
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+}
+
+enum BizType {
+  PRODUCT
+  SERVICES
+}
+
+model Product {
+  id    String   @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  desc  String?
+  imgs  String[]
+  price String
+
+  bizId String @db.ObjectId
+
+  biz Biz @relation(fields: [bizId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+}
