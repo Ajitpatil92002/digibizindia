@@ -72,6 +72,7 @@ model User {
 
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @default(now()) @map(name: "updated_at")
+  Biz       Biz[]
 
   @@index([id, email, phonenumber])
   @@map(name: "users")
@@ -84,7 +85,11 @@ enum Gender {
 }
 
 model Biz {
-  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   slug       String  @unique
   type       BizType
   bizname    String
@@ -119,8 +124,7 @@ model Product {
   price String
 
   bizId String @db.ObjectId
-
-  biz Biz @relation(fields: [bizId], references: [id], onDelete: Cascade)
+  biz   Biz    @relation(fields: [bizId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @default(now()) @map(name: "updated_at")

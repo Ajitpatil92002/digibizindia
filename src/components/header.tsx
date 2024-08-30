@@ -1,10 +1,14 @@
 import React from "react";
+import Link from "next/link"
+import { ChevronRight } from "lucide-react"
 
 import { MainNav } from "./mainnav";
 import { ModeToggle } from "./mode-toogle";
 import LoginButton from "./loginbtn";
 import { getCurrentUser } from "@/lib/session";
 import Logoutbtn from "./logoutbtn";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 const Header = async () => {
     const user = await getCurrentUser()
@@ -15,8 +19,8 @@ const Header = async () => {
                     <MainNav />
                     <div className="flex flex-1 items-center justify-end space-x-4">
                         <ModeToggle />
-                        <nav className="hidden md:flex items-center space-x-1">
-                            {user ? <><span className="p-2 font-medium text-2xl">{user.name} </span><Logoutbtn /></> : <LoginButton />}
+                        <nav className="hidden md:flex items-center space-x-4">
+                            {user ? <><UserProfileLinkComponent name={user.name || ""} avatarSrc={user.image || ""} /><Logoutbtn /></> : <LoginButton />}
                         </nav>
                     </div>
                 </div>
@@ -26,3 +30,19 @@ const Header = async () => {
 };
 
 export default Header;
+
+interface UserProfileLinkProps {
+    name: string
+    avatarSrc: string
+}
+
+function UserProfileLinkComponent({ name, avatarSrc }: UserProfileLinkProps) {
+    return (
+        <Link href={`/profile`}>
+            <Avatar className="w-12 h-12 border-2  shadow-sm">
+                <AvatarImage src={avatarSrc} alt={name} />
+                <AvatarFallback>{name.split(' ').map(n => n[0]).join('').toUpperCase()}</AvatarFallback>
+            </Avatar>
+        </Link>
+    )
+}

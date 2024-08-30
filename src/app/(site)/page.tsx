@@ -15,7 +15,7 @@ export default function Home() {
     <>
       <Header />
       <main className="app">
-        <div className="relative flex h-[400px] md:h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-lg">
+        <div className="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-lg">
           <ParticlesComp />
           <section className="grid items-center gap-6 pb-8 pt-6 md:py-10 z-auto">
             <div className="flex-center w-full flex-col">
