@@ -12,6 +12,9 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import axios from "axios"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { Biz } from "@prisma/client"
+import Image from "next/image"
+import Link from "next/link"
 
 
 const Profileclient = ({ data }: {
@@ -21,6 +24,7 @@ const Profileclient = ({ data }: {
         phoneNumber: string,
         gender: string,
         img: string,
+        bizes: Biz[]
     }
 }) => {
     return (
@@ -56,6 +60,40 @@ const Profileclient = ({ data }: {
                     </div>
                 </CardContent>
             </Card>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+                {data.bizes.map((biz) => (
+                    <Link key={biz.id} href={`/biz/${biz.slug}`}>
+                        <Card id="home" >
+                            <CardHeader className="p-0">
+                                <div className="relative h-48 bg-gradient-to-r from-red-400 to-red-600">
+                                    <Image
+                                        src={biz.bannerImg || ""}
+                                        alt="Profile background"
+                                        width={1000}
+                                        height={1000}
+                                        className="rounded-t-lg h-auto w-auto"
+                                    />
+                                </div>
+                                <div className="px-6 pb-6">
+                                    <div className="flex flex-row items-center justify-center sm:space-x-4">
+                                        <Avatar className="w-32 h-32 border-4 border-white bg-background -mt-16 relative z-10">
+                                            <AvatarImage src={biz.logo || ""} alt={biz.bizname || ""} />
+                                            <AvatarFallback className="text-lg">{biz.bizname.split(" ").map((n) => n[0]).join("")}</AvatarFallback>
+                                        </Avatar>
+                                    </div>
+                                    <div className="text-justify flex flex-col items-center justify-center sm:space-x-4">
+                                        <CardTitle className="text-2xl font-bold">{biz.bizname}</CardTitle>
+                                        <p className="">{biz.heading}</p>
+                                        <p className="text-sm text-gray-400">
+                                            {biz.subheading}
+                                        </p>
+                                    </div>
+                                </div>
+                            </CardHeader>
+                        </Card>
+                    </Link>
+                ))}
+            </div>
         </div>
     )
 }

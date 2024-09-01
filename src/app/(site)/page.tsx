@@ -29,11 +29,11 @@ export default function Home() {
               </p>
             </div>
           </section>
-        </div>
-        <div className="relative top-5 flex-center gap-4 hover:cursor-pointer">
-          <Link href={"/getstart"} className={cn(buttonVariants(), "absolute bottom-4 md:bottom-[80px]")}>
-            Get Started
-          </Link>
+          <div className="flex-center gap-4 hover:cursor-pointer">
+            <Link href={"/getstart"} className={cn(buttonVariants(), "absolute bottom-4 md:bottom-[80px]")}>
+              Get Started
+            </Link>
+          </div>
         </div>
         <section className="feed mt-14">
           <Suspense fallback={

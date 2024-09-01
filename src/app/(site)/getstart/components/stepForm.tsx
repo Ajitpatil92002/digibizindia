@@ -62,7 +62,7 @@ const StepForm = () => {
         return <ProductsForm bizId={bizId || ""} handleform={handleForm} />
     } else {
         return <CongratsComponent
-            link=""
+            link={`/biz/${bizId}`}
             title="Congratulations!"
             message="You have successfully Created Your Businnes Site. Great job!"
         />

@@ -2,14 +2,11 @@ import Header from '@/components/header'
 import LoginButton from '@/components/loginbtn'
 import { getCurrentUser } from '@/lib/session'
 import React from 'react'
-import Profileclient from './client'
 import { notFound } from 'next/navigation'
 import { db } from '@/lib/db'
+import Profileclient from './components/profileClient'
 
-const Profilepage = async ({ params, searchParas }: {
-    params: {},
-    searchParas: {}
-}) => {
+const Profilepage = async () => {
     const user = await getCurrentUser()
 
     if (!user) {
@@ -39,7 +36,7 @@ const Profilepage = async ({ params, searchParas }: {
         phoneNumber: userData.phonenumber || "",
         img: userData.image || "",
         gender: userData.gender || "",
-        biz: userData.Biz
+        bizes: userData.Biz
     }
 
     return (

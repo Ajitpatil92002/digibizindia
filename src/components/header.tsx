@@ -15,11 +15,11 @@ const Header = async () => {
     return (
         <>
             <header className="sticky top-0 z-40 w-full bg-background shadow-md backdrop-blur-md">
-                <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
+                <div className="container flex h-16 items-center  justify-between">
                     <MainNav />
-                    <div className="flex flex-1 items-center justify-end space-x-4">
+                    <div className="flex flex-1 items-center justify-end">
                         <ModeToggle />
-                        <nav className="hidden md:flex items-center space-x-4">
+                        <nav className="flex items-center gap-4">
                             {user ? <><UserProfileLinkComponent name={user.name || ""} avatarSrc={user.image || ""} /><Logoutbtn /></> : <LoginButton />}
                         </nav>
                     </div>
@@ -39,7 +39,7 @@ interface UserProfileLinkProps {
 function UserProfileLinkComponent({ name, avatarSrc }: UserProfileLinkProps) {
     return (
         <Link href={`/profile`}>
-            <Avatar className="w-12 h-12 border-2  shadow-sm">
+            <Avatar className="w-8 h-8 md:h-12 md:w-12 border-2 shadow-sm">
                 <AvatarImage src={avatarSrc} alt={name} />
                 <AvatarFallback>{name.split(' ').map(n => n[0]).join('').toUpperCase()}</AvatarFallback>
             </Avatar>

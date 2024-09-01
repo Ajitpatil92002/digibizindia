@@ -1,6 +1,6 @@
 import React from 'react'
 import Component from './client'
-import { MobileBottomNavbar } from './bottomNav'
+import { MobileBottomNavbar } from '../../components/bottomNav'
 import Makedark from './makedark'
 
 const products = [
@@ -53,8 +53,8 @@ const Demopage = () => {
     return (
         <div className=''>
             <Makedark />
-            <MobileBottomNavbar isProducts={true} />
-            <Component products={products} phone='8971860300' name='Shagun Saree Center' title='Exquisite sarees for the modern woman' desc='Explore our collection of handpicked sarees, crafted to make you feel confident and beautiful' address={"Kumbararwada cross, bidar"} timings="9:00 Am - 10:00pm" fb={""} insta='' />
+            <MobileBottomNavbar link={"/demo"} isProducts={true} />
+            <Component products={products} bannerImg='' phone='8971860300' name='Shagun Saree Center' title='Exquisite sarees for the modern woman' desc='Explore our collection of handpicked sarees, crafted to make you feel confident and beautiful' address={"Kumbararwada cross, bidar"} timings="9:00 Am - 10:00pm" fb={""} insta='' />
             <div className='h-screen'>
             </div>
         </div>

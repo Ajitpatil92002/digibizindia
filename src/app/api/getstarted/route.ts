@@ -25,11 +25,6 @@ export async function POST(request: Request, { params }: { params: {} }) {
                     slug: body.bizId
                 },
                 data: {
-                    bizname: body.bizname,
-                    heading: body.heading,
-                    subheading: body.subheading,
-                    type: body.type,
-                    logo: body.logo,
                     phonenumbers: body.phonenumbers,
                     address: body.address,
                     timings: body.timings,
@@ -43,10 +38,12 @@ export async function POST(request: Request, { params }: { params: {} }) {
                 data: {
                     slug: titleToSlug(body.bizname ? body.bizname.trim() : ""),
                     bizname: body.bizname || "",
+                    userId: user.id,
                     heading: body.heading,
                     subheading: body.subheading,
                     type: body.type || "PRODUCT",
                     logo: body.logo,
+                    bannerImg: body.bannerImg,
                     phonenumbers: body.phonenumbers,
                     address: body.address,
                     timings: body.timings,
@@ -86,6 +83,7 @@ const GETSTARED_SCHEMA = z.object({
     timings: z.string().optional(),
     fblink: z.string().optional(),
     instalink: z.string().optional(),
+    bannerImg: z.string().optional(),
     otherslink: z.array(z.string()).optional(),
 })
 

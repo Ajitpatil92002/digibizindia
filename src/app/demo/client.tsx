@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client"
 
 import { useEffect, useState } from "react"
@@ -5,26 +6,23 @@ import Image from "next/image"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
 import { Edit, Briefcase, ThumbsUp, Plus, Camera, HeartIcon, ChevronRightIcon, ChevronLeftIcon, Share2Icon, PhoneIcon, HomeIcon, Circle, Clock12Icon, Facebook, Instagram } from "lucide-react"
 import Link from "next/link"
 import { useParams } from "next/navigation"
 
 
-
-export default function Component({ name, title, desc, phone, address, timings, fb, insta, products }: { name: string, title: string, desc: string, phone: string, address: string, timings: string, fb: string, insta: string, products: Product[] }) {
+export default function Component({ name, title, desc, phone, address, timings, fb, insta, products, bannerImg }: { name: string, title: string, desc: string, phone: string, address: string, timings: string, fb: string, insta: string, products: Product[], bannerImg: string }) {
     return (
         <div className="max-w-2xl mx-auto space-y-6 p-4">
             <Card id="home" >
                 <CardHeader className="p-0">
                     <div className="relative h-48 bg-gradient-to-r from-red-400 to-red-600">
-                        <Image
-                            src="/placeholder.svg?height=192&width=768"
+                        <img
+                            src={bannerImg || ""}
                             alt="Profile background"
-                            layout="fill"
-                            objectFit="cover"
-                            className="rounded-t-lg"
+                            width={1000}
+                            height={1000}
+                            className="rounded-t-lg h-auto w-auto"
                         />
                         <Button
                             variant="secondary"

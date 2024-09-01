@@ -6,7 +6,7 @@ import { useParams, usePathname } from "next/navigation";
 
 
 
-export const MobileBottomNavbar = ({ isProducts }: { isProducts: boolean }) => {
+export const MobileBottomNavbar = ({ isProducts, link }: { isProducts: boolean, link: string }) => {
 
     const pathname = usePathname()
     const params = useParams()
@@ -15,18 +15,18 @@ export const MobileBottomNavbar = ({ isProducts }: { isProducts: boolean }) => {
         {
             id: "m;avlnM",
             title: "Home",
-            href: `/demo#home`,
+            href: `/${link}#home`,
             icon: HomeIcon,
         }, {
             id: "anlsm",
             title: isProducts ? "Products" : "Services",
-            href: `/demo#product`,
+            href: `/${link}#product`,
             icon: ShapesIcon,
         },
         {
             id: "mankcow",
             title: "Contact",
-            href: `/demo#contact`,
+            href: `/${link}#contact`,
             icon: PhoneIcon,
         },
         {

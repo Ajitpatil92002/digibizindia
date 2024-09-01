@@ -8,7 +8,7 @@ const LoginButton = () => {
     return (
         <button onClick={() => {
             signIn("google")
-        }} aria-label="Log in with Google" className={buttonVariants({ size: "lg" })}>
+        }} aria-label="Log in with Google" className={buttonVariants({ size: "sm" })}>
             Login
         </button>
     )

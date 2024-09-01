@@ -14,8 +14,8 @@ const ParticlesComp = () => {
     return (
         <Particles
             className="absolute inset-0"
-            quantity={100}
-            ease={80}
+            quantity={200}
+            ease={300}
             color={color}
             refresh
         />

@@ -16,10 +16,15 @@ export async function POST(request: Request, { params }: { params: {} }) {
 
         const json = await request.json()
         const body = PRODUCT_SCHEMA.parse(json)
+        const biz = await db.biz.findUniqueOrThrow({
+            where: {
+                slug: body.bizId
+            }
+        })
 
         await db.product.create({
             data: {
-                bizId: body.bizId,
+                bizId: biz.id,
                 title: body.title,
                 price: body.price,
                 imgs: body.imgs,
@@ -31,7 +36,7 @@ export async function POST(request: Request, { params }: { params: {} }) {
             JSON.stringify({
                 msg: "",
                 data: {
-
+                    bizId: biz.slug
                 },
             }),
             { status: 200 }

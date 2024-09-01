@@ -96,6 +96,7 @@ model Biz {
   heading    String?
   subheading String?
   logo       String?
+  bannerImg  String?
 
   phonenumbers String?
   email        String?
