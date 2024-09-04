@@ -7,7 +7,7 @@ import { useParams, usePathname } from "next/navigation";
 
 
 
-export const MobileBottomNavbar = ({ isProducts, link, biz }: { biz: Biz, isProducts: boolean, link: string }) => {
+export const MobileBottomNavbar = ({ isProducts, link, biz }: { biz: Biz | null, isProducts: boolean, link: string }) => {
 
     const pathname = usePathname()
     const params = useParams()
@@ -51,8 +51,8 @@ export const MobileBottomNavbar = ({ isProducts, link, biz }: { biz: Biz, isProd
             <div className={cn("flex flex-col items-center")} onClick={async () => {
                 if (navigator.share) {
                     await navigator.share({
-                        title: biz.bizname,
-                        text: biz.bizname + "\n" + biz.heading + "\n" + biz.subheading,
+                        title: biz?.bizname,
+                        text: biz?.bizname + "\n" + biz?.heading + "\n" + biz?.subheading,
                         url: window.location.href,
                     })
                 } else {

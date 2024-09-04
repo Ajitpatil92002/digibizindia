@@ -53,7 +53,7 @@ const Demopage = () => {
     return (
         <div className=''>
             <Makedark />
-            <MobileBottomNavbar link={"/demo"} isProducts={true} />
+            <MobileBottomNavbar link={"/demo"} isProducts={true} biz={null} />
             <Component products={products} bannerImg='' phone='8971860300' name='Shagun Saree Center' title='Exquisite sarees for the modern woman' desc='Explore our collection of handpicked sarees, crafted to make you feel confident and beautiful' address={"Kumbararwada cross, bidar"} timings="9:00 Am - 10:00pm" fb={""} insta='' />
             <div className='h-screen'>
             </div>
