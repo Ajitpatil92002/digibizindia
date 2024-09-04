@@ -55,11 +55,21 @@ const Productpage = async ({ searchParams, params }: {
             id: productId
         }
     })
+    const { slug } = params
+
+    const biz = await db.biz.findUniqueOrThrow({
+        where: {
+            slug
+        }, include: {
+            Product: true
+        }
+    })
+
 
     return (
         <div className=''>
             <Makedark />
-            <MobileBottomNavbar isProducts={true} link={`biz/${params.slug}`} />
+            <MobileBottomNavbar biz={biz} isProducts={true} link={`biz/${params.slug}`} />
             <ProductComponent product={product} />
         </div>
     )

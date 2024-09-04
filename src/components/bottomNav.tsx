@@ -1,12 +1,13 @@
 "use client"
 import { cn } from "@/lib/utils";
+import { Biz } from "@prisma/client";
 import { Bell, BookOpenIcon, HomeIcon, LayoutDashboard, PhoneIcon, Settings, Settings2, ShapesIcon, Share2Icon, ShareIcon, User, Users2, UserSquareIcon } from "lucide-react";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 
 
 
-export const MobileBottomNavbar = ({ isProducts, link }: { isProducts: boolean, link: string }) => {
+export const MobileBottomNavbar = ({ isProducts, link, biz }: { biz: Biz, isProducts: boolean, link: string }) => {
 
     const pathname = usePathname()
     const params = useParams()
@@ -47,7 +48,18 @@ export const MobileBottomNavbar = ({ isProducts, link }: { isProducts: boolean, 
                     </div>
                 </Link>
             ))}
-            <div className={cn("flex flex-col items-center")}>
+            <div className={cn("flex flex-col items-center")} onClick={async () => {
+                if (navigator.share) {
+                    await navigator.share({
+                        title: biz.bizname,
+                        text: biz.bizname + "\n" + biz.heading + "\n" + biz.subheading,
+                        url: window.location.href,
+                    })
+                } else {
+                    alert("Error sharing")
+                    console.error("Error sharing:")
+                }
+            }}>
                 <div className="mb-1 text-lg"><Share2Icon /></div>
                 <div className="text-xs">Share</div>
             </div>

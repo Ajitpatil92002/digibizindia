@@ -8,11 +8,12 @@ import Makedark from '../../demo/makedark'
 import { MobileBottomNavbar } from '@/components/bottomNav'
 import { db } from '@/lib/db'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Clock12Icon, Facebook, HomeIcon, Instagram, PhoneIcon } from 'lucide-react'
+import { Clock12Icon, EyeIcon, Facebook, HomeIcon, Instagram, PhoneIcon } from 'lucide-react'
 import Link from 'next/link'
 import { ImageCarousel } from './components/imageCarousel'
 import ShareButton from '@/components/shareButton'
 import { Biz, Product } from '@prisma/client'
+import { buttonVariants } from '@/components/ui/button'
 
 
 type Props = {
@@ -57,12 +58,12 @@ const BizSitepage = async ({ params }: {
     return (
         <div className=''>
             <Makedark />
-            <MobileBottomNavbar isProducts={true} link={`biz/${slug}`} />
+            <MobileBottomNavbar biz={biz} isProducts={true} link={`biz/${slug}`} />
             <div className="max-w-2xl mx-auto space-y-6 p-4">
                 <BizProfile biz={biz} />
                 <div id="products" className="">
                     <h4 className="my-10 text-2xl text-center font-bold">{biz.type == "PRODUCT" ? "Products" : "Services"}</h4>
-                    <div className="md:grid grid-cols-2 gap-2">
+                    <div className="md:grid grid-cols-2 gap-4">
                         {
                             biz.Product.map((product) => <BizProduct slug={biz.slug} key={product.id} product={product} />)
                         }
@@ -202,25 +203,29 @@ function BizContact({ biz }: { biz: Biz }) {
 function BizProduct({ product, slug }: { product: Product, slug: string }) {
 
     return (
-        <Link href={`/biz/${slug}/product?productId=${product.id}`}>
-            <Card className="overflow-hidden">
-                <CardContent className="p-0">
-                    <ImageCarousel images={product.imgs} />
-                    <div className="p-3">
-                        <div className="flex justify-between items-start w-full">
-                            <div>
-                                <h2 className="text-lg font-semibold">{product.title}</h2>
-                                <p className="text-sm text-gray-500">{product.desc}</p>
-                            </div>
+
+        <Card className="overflow-hidden">
+            <CardContent className="p-0">
+                <ImageCarousel images={product.imgs} />
+                <div className="p-3">
+                    <div className="flex justify-between items-start w-full">
+                        <div>
+                            <h2 className="text-lg font-semibold">{product.title}</h2>
+                            <p className="text-sm text-gray-500">{product.desc}</p>
                         </div>
-                        <div className="flex justify-between items-center w-full">
-                            <span className="text-xl font-bold">{product.price} Rs</span>
+                    </div>
+                    <div className="flex justify-between items-center w-full">
+                        <span className="text-xl font-bold">{product.price} Rs</span>
+                        <div className='flex items-center gap-2'>
+                            <Link href={`/biz/${slug}/product?productId=${product.id}`} className={buttonVariants({ size: "icon", variant: "outline" })}>
+                                <EyeIcon className='h-4 w-4' />
+                            </Link>
                             <ShareButton files={product.imgs} title={product.title} text={product.title} url={`/biz/${slug}/product?productId=${product.id}`} />
                         </div>
                     </div>
-                </CardContent>
-            </Card>
-        </Link>
+                </div>
+            </CardContent>
+        </Card>
     )
 }
 

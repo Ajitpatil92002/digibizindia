@@ -27,14 +27,14 @@ const ShareButton = ({ title, text, url, files }: { title: string, text: string,
                     await navigator.share({
                         title: title,
                         text: text,
-                        url: window.location.href,
+                        url,
                         files: sfiles,
                     })
                 } else {
                     await navigator.share({
                         title: title,
                         text: text,
-                        url: window.location.href,
+                        url,
                     })
                 }
             } catch (error) {
@@ -46,7 +46,7 @@ const ShareButton = ({ title, text, url, files }: { title: string, text: string,
         }
     }
     return (
-        <Button variant="ghost" size="icon" onClick={handleShare}>
+        <Button variant="outline" size="icon" onClick={handleShare}>
             <Share2Icon className="h-5 w-5" />
             <span className="sr-only">Share product</span>
         </Button>
