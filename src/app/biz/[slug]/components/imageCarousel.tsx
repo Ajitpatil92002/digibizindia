@@ -38,7 +38,7 @@ export const ImageCarousel = ({ images }: { images: string[] }) => {
                     <Button
                         variant="ghost"
                         size="icon"
-                        className="absolute left-2 top-1/2 transform -translate-y-1/2"
+                        className="absolute left-2 top-1/2 transform -translate-y-1/2 rounded-full bg-background/80"
                         onClick={prevSlide}
                     >
                         <ChevronLeftIcon className="h-4 w-4" />
@@ -46,7 +46,7 @@ export const ImageCarousel = ({ images }: { images: string[] }) => {
                     <Button
                         variant="ghost"
                         size="icon"
-                        className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 rounded-full bg-background/80"
                         onClick={nextSlide}
                     >
                         <ChevronRightIcon className="h-4 w-4" />

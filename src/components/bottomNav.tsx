@@ -1,6 +1,6 @@
 "use client"
 import { cn } from "@/lib/utils";
-import { Bell, BookOpenIcon, HomeIcon, LayoutDashboard, PhoneIcon, Settings, Settings2, ShapesIcon, Share2Icon, User, Users2, UserSquareIcon } from "lucide-react";
+import { Bell, BookOpenIcon, HomeIcon, LayoutDashboard, PhoneIcon, Settings, Settings2, ShapesIcon, Share2Icon, ShareIcon, User, Users2, UserSquareIcon } from "lucide-react";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 
@@ -29,13 +29,6 @@ export const MobileBottomNavbar = ({ isProducts, link }: { isProducts: boolean, 
             href: `/${link}#contact`,
             icon: PhoneIcon,
         },
-        {
-            id: "aljsf",
-            title: "Share",
-            href: `/`,
-            icon: Share2Icon,
-        },
-
     ]
 
     function isActive(href: string) {
@@ -54,6 +47,10 @@ export const MobileBottomNavbar = ({ isProducts, link }: { isProducts: boolean, 
                     </div>
                 </Link>
             ))}
+            <div className={cn("flex flex-col items-center")}>
+                <div className="mb-1 text-lg"><Share2Icon /></div>
+                <div className="text-xs">Share</div>
+            </div>
         </nav>
     );
 };

@@ -57,7 +57,7 @@ const BizSitepage = async ({ params }: {
     return (
         <div className=''>
             <Makedark />
-            <MobileBottomNavbar isProducts={true} link={`/biz/${slug}`} />
+            <MobileBottomNavbar isProducts={true} link={`biz/${slug}`} />
             <div className="max-w-2xl mx-auto space-y-6 p-4">
                 <BizProfile biz={biz} />
                 <div id="products" className="">
@@ -85,15 +85,16 @@ function BizProfile({ biz }: { biz: Biz }) {
                 <Image
                     src={biz.bannerImg || ""}
                     alt="Profile background"
-                    width={1000}
-                    height={1000}
-                    className="rounded-t-lg h-auto w-auto"
+                    layout="fill" // Use fill to make the image responsive
+                    objectFit="cover" // Cover the container while maintaining aspect ratio
+                    objectPosition="center" // Center the image
+                    className="rounded-t-lg"
                 />
             </div>
             <div className="px-6 pb-6">
                 <div className="flex flex-row items-center justify-center sm:space-x-4">
                     <Avatar className="w-32 h-32 border-4 border-white -mt-16 relative z-10">
-                        <AvatarImage src="/placeholder-avatar.jpg" alt={biz.bizname || ""} />
+                        <AvatarImage src={biz.logo || ""} alt={biz.bizname || ""} />
                         <AvatarFallback className="text-lg">{biz.bizname.split(" ").map((n) => n[0]).join("")}</AvatarFallback>
                     </Avatar>
                 </div>
@@ -199,6 +200,7 @@ function BizContact({ biz }: { biz: Biz }) {
 
 
 function BizProduct({ product, slug }: { product: Product, slug: string }) {
+
     return (
         <Link href={`/biz/${slug}/product?productId=${product.id}`}>
             <Card className="overflow-hidden">
@@ -213,7 +215,7 @@ function BizProduct({ product, slug }: { product: Product, slug: string }) {
                         </div>
                         <div className="flex justify-between items-center w-full">
                             <span className="text-xl font-bold">{product.price} Rs</span>
-                            <ShareButton title={product.title} text={product.title} url={`/biz/${slug}/product?productId=${product.id}`} />
+                            <ShareButton files={product.imgs} title={product.title} text={product.title} url={`/biz/${slug}/product?productId=${product.id}`} />
                         </div>
                     </div>
                 </CardContent>

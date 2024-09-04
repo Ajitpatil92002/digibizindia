@@ -4,9 +4,11 @@ import ProductComponent from './client'
 
 import type { Metadata, ResolvingMetadata } from 'next'
 import { notFound } from 'next/navigation'
+import Makedark from '@/app/demo/makedark'
+import { MobileBottomNavbar } from '@/components/bottomNav'
 
 type Props = {
-    params: { id: string }
+    params: { slug: string }
     searchParams: { productId: string }
 }
 
@@ -35,7 +37,10 @@ export async function generateMetadata(
     }
 }
 
-const Productpage = async ({ searchParams }: {
+const Productpage = async ({ searchParams, params }: {
+    params: {
+        slug: string
+    }
     searchParams: {
         productId: string
     }
@@ -52,7 +57,11 @@ const Productpage = async ({ searchParams }: {
     })
 
     return (
-        <ProductComponent product={product} />
+        <div className=''>
+            <Makedark />
+            <MobileBottomNavbar isProducts={true} link={`biz/${params.slug}`} />
+            <ProductComponent product={product} />
+        </div>
     )
 }
 
