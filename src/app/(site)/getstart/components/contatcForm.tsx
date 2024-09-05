@@ -70,8 +70,8 @@ const ContactForm = ({ handleform, bizId }: { bizId: string, handleform: (bizId:
                 ...formData
             });
             handleform(resp.data.data.bizId);
-        } catch (error) {
-            alert("error occurred");
+        } catch (error: any) {
+            alert("error" + error.response.data.msg || error.message)
         } finally {
             setisSubmitting(false);
         }

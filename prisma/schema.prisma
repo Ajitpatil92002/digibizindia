@@ -106,6 +106,12 @@ model Biz {
   instalink    String?
   otherslink   String[]
 
+  logo_public_id  String?
+  logo_secure_url String?
+
+  bannerImg_public_id  String?
+  bannerImg_secure_url String?
+
   Product Product[]
 
   createdAt DateTime @default(now()) @map(name: "created_at")
@@ -124,8 +130,21 @@ model Product {
   imgs  String[]
   price String
 
-  bizId String @db.ObjectId
-  biz   Biz    @relation(fields: [bizId], references: [id], onDelete: Cascade)
+  bizId  String   @db.ObjectId
+  biz    Biz      @relation(fields: [bizId], references: [id], onDelete: Cascade)
+  Images Images[]
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+}
+
+model Images {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  public_id  String
+  secure_url String
+  productId  String  @db.ObjectId
+  product    Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @default(now()) @map(name: "updated_at")

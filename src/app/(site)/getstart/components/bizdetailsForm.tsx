@@ -67,16 +67,14 @@ const BizdetailsForm = ({ handleform }: { handleform: (bizId: string) => void })
     };
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log(formData);
-
         try {
             setisSubmitting(true)
             const resp = await axios.post("/api/getstarted", {
                 ...formData
             })
             handleform(resp.data.data.bizId)
-        } catch (error) {
-            alert("error")
+        } catch (error: any) {
+            alert("error" + error.response.data.msg || error.message)
         } finally {
             setisSubmitting(false)
         }

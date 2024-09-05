@@ -1,10 +1,18 @@
 import { NextResponse } from "next/server"
 import * as z from "zod"
-
+import { v2 as cloudinary } from "cloudinary"
 
 import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
 import { Biz } from "@prisma/client"
+
+cloudinary.config({
+    cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+    secure: true,
+})
+
 
 export async function POST(request: Request, { params }: { params: {} }) {
     try {
@@ -34,29 +42,45 @@ export async function POST(request: Request, { params }: { params: {} }) {
                 }
             })
         } else {
+            const slug = titleToSlug(body.bizname ? body.bizname.trim() : "")
+            let logo_result
+            let bannerImg_result
+            if (body.logo) {
+                logo_result = await cloudinary.uploader.upload(body.logo, {
+                    folder: `/digibizindia/${slug}`
+                });
+            }
+            if (body.bannerImg) {
+                bannerImg_result = await cloudinary.uploader.upload(body.bannerImg, {
+                    folder: `/digibizindia/${slug}`,
+                });
+            }
+
             biz = await db.biz.create({
                 data: {
-                    slug: titleToSlug(body.bizname ? body.bizname.trim() : ""),
+                    slug,
                     bizname: body.bizname || "",
                     userId: user.id,
                     heading: body.heading,
                     subheading: body.subheading,
                     type: body.type || "PRODUCT",
-                    logo: body.logo,
-                    bannerImg: body.bannerImg,
                     phonenumbers: body.phonenumbers,
                     address: body.address,
                     timings: body.timings,
                     fblink: body.fblink,
                     instalink: body.instalink,
                     otherslink: body.otherslink ? body.otherslink : [],
+                    logo_public_id: logo_result?.public_id,
+                    logo_secure_url: logo_result?.secure_url,
+                    bannerImg_public_id: bannerImg_result?.public_id,
+                    bannerImg_secure_url: bannerImg_result?.secure_url,
                 }
             })
         }
 
         return new NextResponse(
             JSON.stringify({
-                msg: "",
+                msg: "Created successfully",
                 data: {
                     bizId: biz.slug
                 },

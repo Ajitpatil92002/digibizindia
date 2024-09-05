@@ -40,8 +40,6 @@ export const authOptions: NextAuthOptions = {
       });
 
       if (!dbUser) {
-        console.log(dbUser);
-
         throw new Error("No user found");
         if (user) {
           token.id = user?.id;

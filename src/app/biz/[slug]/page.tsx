@@ -12,8 +12,11 @@ import { Clock12Icon, EyeIcon, Facebook, HomeIcon, Instagram, PhoneIcon } from '
 import Link from 'next/link'
 import { ImageCarousel } from './components/imageCarousel'
 import ShareButton from '@/components/shareButton'
-import { Biz, Product } from '@prisma/client'
+import { Biz, Images, Product } from '@prisma/client'
 import { buttonVariants } from '@/components/ui/button'
+import { BizForm } from '@/components/biz-form'
+import { getCurrentUser } from '@/lib/session'
+import ProductsForm from './components/addProduct'
 
 
 type Props = {
@@ -46,24 +49,36 @@ const BizSitepage = async ({ params }: {
         slug: string
     }
 }) => {
+    const currentuser = await getCurrentUser()
     const { slug } = params
 
     const biz = await db.biz.findUniqueOrThrow({
         where: {
             slug
         }, include: {
-            Product: true
+            Product: {
+                include: {
+                    Images: true
+                }
+            }
         }
     })
+    const isAdmin = currentuser?.id == biz.userId
     return (
         <div className=''>
             <Makedark />
             <MobileBottomNavbar biz={biz} isProducts={true} link={`biz/${slug}`} />
             <div className="max-w-2xl mx-auto space-y-6 p-4">
-                <BizProfile biz={biz} />
+                <BizProfile biz={biz} isAdmin={isAdmin} />
                 <div id="products" className="">
-                    <h4 className="my-10 text-2xl text-center font-bold">{biz.type == "PRODUCT" ? "Products" : "Services"}</h4>
+                    <div className='flex items-center justify-between'>
+                        <h4 className="my-10 text-2xl text-center font-bold">{biz.type == "PRODUCT" ? "Products" : "Services"}</h4>
+                        <div>
+                            <ProductsForm bizId={biz.id} />
+                        </div>
+                    </div>
                     <div className="md:grid grid-cols-2 gap-4">
+
                         {
                             biz.Product.map((product) => <BizProduct slug={biz.slug} key={product.id} product={product} />)
                         }
@@ -79,7 +94,7 @@ const BizSitepage = async ({ params }: {
 
 export default BizSitepage
 
-function BizProfile({ biz }: { biz: Biz }) {
+function BizProfile({ biz, isAdmin }: { biz: Biz, isAdmin: boolean }) {
     return <Card id="home" >
         <CardHeader className="p-0">
             <div className="relative h-48 bg-gradient-to-r from-red-400 to-red-600">
@@ -98,6 +113,23 @@ function BizProfile({ biz }: { biz: Biz }) {
                         <AvatarImage src={biz.logo || ""} alt={biz.bizname || ""} />
                         <AvatarFallback className="text-lg">{biz.bizname.split(" ").map((n) => n[0]).join("")}</AvatarFallback>
                     </Avatar>
+                    {isAdmin && <BizForm biz={{
+                        slug: biz.slug,
+                        id: biz.id,
+                        bizname: biz.bizname,
+                        heading: biz.heading || "",
+                        subheading: biz.subheading || "",
+                        type: biz.type,
+                        logo: biz.logo || undefined,
+                        phonenumbers: biz.phonenumbers || "",
+                        email: biz.email || "",
+                        address: biz.address || "",
+                        timings: biz.timings || "",
+                        fblink: biz.fblink || "",
+                        instalink: biz.instalink || "",
+                        bannerImg: biz.bannerImg || undefined,
+                        otherslink: biz.otherslink.join(",") || "",
+                    }} />}
                 </div>
                 <div className="text-justify flex flex-col items-center justify-center sm:space-x-4">
                     <CardTitle className="text-2xl font-bold">{biz.bizname}</CardTitle>
@@ -199,14 +231,17 @@ function BizContact({ biz }: { biz: Biz }) {
     </div>
 }
 
+interface IProduct extends Product {
+    Images: Images[]
+}
 
-function BizProduct({ product, slug }: { product: Product, slug: string }) {
+function BizProduct({ product, slug }: { product: IProduct, slug: string }) {
 
     return (
 
         <Card className="overflow-hidden">
             <CardContent className="p-0">
-                <ImageCarousel images={product.imgs} />
+                <ImageCarousel Images={product.Images} images={product.imgs} />
                 <div className="p-3">
                     <div className="flex justify-between items-start w-full">
                         <div>

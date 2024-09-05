@@ -71,8 +71,8 @@ const ProductsForm = ({ handleform, bizId }: { bizId: string, handleform: (bizId
             if (!confirm("Do you want to add another product?")) {
                 handleform(resp.data.data.bizId)
             }
-        } catch (error) {
-            alert("error occoured")
+        } catch (error: any) {
+            alert("error" + error.response.data.msg || error.message)
         } finally {
             setisSubmitting(false)
         }

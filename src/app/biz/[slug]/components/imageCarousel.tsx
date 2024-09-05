@@ -1,11 +1,12 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { Images } from "@prisma/client"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 import Image from "next/image"
 import { useEffect, useState } from "react"
 
-export const ImageCarousel = ({ images }: { images: string[] }) => {
+export const ImageCarousel = ({ images, Images }: { images: string[], Images: Images[] }) => {
     const [currentIndex, setCurrentIndex] = useState(0)
 
     const nextSlide = () => {
@@ -28,7 +29,7 @@ export const ImageCarousel = ({ images }: { images: string[] }) => {
                 <Image
                     width={1000}
                     height={1000}
-                    src={images[currentIndex]}
+                    src={Images[currentIndex].secure_url}
                     alt={`Slide ${currentIndex + 1}`}
                     className="w-full aspect-square object-cover  ease-in-out transition-opacity flex  duration-700 "
                 />
